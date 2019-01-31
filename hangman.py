@@ -1,3 +1,4 @@
+"""Hangman game"""
 import os
 from random import randint
 
@@ -5,6 +6,10 @@ WORDS_PATH = "words"
 ENG_ALPHABETS = [chr(65+i) for i in range(25)] + [chr(97+i) for i in range(25)]
 
 def getCategory():
+    """
+    Retrive all words files and return categories.
+    """
+
     categories = []
     for filename in os.listdir(WORDS_PATH):
         categories += [{
@@ -15,8 +20,11 @@ def getCategory():
     return categories
 
 def showMenu(categories):
-    index = 1
+    """
+    Show menu for select categories.
+    """
 
+    index = 1
     print("Select Category:")
     for category in categories:
         print("{:d}: {:s}".format(index, category["title"]))
@@ -38,6 +46,11 @@ def showMenu(categories):
     return categories[select-1]
 
 def randomWord(file):
+    """
+    Random the word from selective file.
+    Return word and hint of the word.
+    """
+
     filepath = os.path.join(WORDS_PATH, file)
     totalWords = sum(1 for line in open(filepath))
 
@@ -64,21 +77,31 @@ def randomWord(file):
     return result
 
 class GuessWord:
-    def __init__(self, word, hint):
+    """
+    Play guessword game.
+    """
+    def __init__(self, word: str, hint: str, right_score: int=1):
         self.word = word.strip()
         self.score = 0
         self.remaining = 10
-        self.rightScore = 1
+        self.rightScore = right_score
         self.wrongGuess = ""
         self.rightGuess = ""
         self.fullScore = self._fullScore()
         self.hint = hint.strip()
     
     def _fullScore(self):
+        """
+        Calculate full score of this game.
+        """
         onlyAlpha = list(filter(lambda x: x.isalpha(), self.word))
         return len(onlyAlpha) * self.rightScore
 
     def show(self):
+        """
+        Display the guessword game.
+        '_' will show instead alphabet that didn't guess right.
+        """
         for charecter in self.word:
             if charecter.lower() in self.rightGuess.lower():
                 print(charecter, end=" ")
@@ -94,6 +117,9 @@ class GuessWord:
         ))
     
     def _guess(self):
+        """
+        Get character input and validate the input.
+        """
         while True:
             charecter = input("> ")
             if len(charecter) > 1:
@@ -110,6 +136,9 @@ class GuessWord:
         return charecter
     
     def _calculate(self, charecter):
+        """
+        Calculate the score and remaining guess.
+        """
         wordLower = self.word.lower()
         charecterLower = charecter.lower()
 
@@ -123,6 +152,10 @@ class GuessWord:
             return -1
 
     def play(self):
+        """
+        Start the game.
+        show hint of the word on first start.
+        """
         print("Hint: \"{:s}\"".format(self.hint.replace("##", "")))
         while True:
             self.show()

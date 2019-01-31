@@ -1,9 +1,17 @@
+"""Weather: covert XML to JSON file."""
 import xmltodict
 import argparse
 import json
 import os
 
 def xmltojson(inputFile, outputFile):
+    """
+    Convert XML file format to JSON file format.
+
+    Args:
+        inputFile: The XML file your want to covert.
+        outputFile: The destination of result JSON file.
+    """
     try:
         rawXML = open(inputFile, "r").read()
     except:
