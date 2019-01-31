@@ -9,7 +9,6 @@ def getCategory():
     """
     Retrive all words files and return categories.
     """
-
     categories = []
     for filename in os.listdir(WORDS_PATH):
         categories += [{
@@ -22,8 +21,10 @@ def getCategory():
 def showMenu(categories):
     """
     Show menu for select categories.
-    """
 
+    Args:
+        categories (list): List of dict that contain "title" and "file".
+    """
     index = 1
     print("Select Category:")
     for category in categories:
@@ -49,8 +50,10 @@ def randomWord(file):
     """
     Random the word from selective file.
     Return word and hint of the word.
-    """
 
+    Args:
+        file (str): Filename or path to file that contain words.
+    """
     filepath = os.path.join(WORDS_PATH, file)
     totalWords = sum(1 for line in open(filepath))
 
@@ -81,6 +84,15 @@ class GuessWord:
     Play guessword game.
     """
     def __init__(self, word: str, hint: str, right_score: int=1):
+        """
+            Init game.
+
+            Args:
+                word (str): The answer word.
+                hint (str): Hint of the word.
+                right_score (int, optional): The score point that will increase when player guess right.
+                    default is 1.
+        """
         self.word = word.strip()
         self.score = 0
         self.remaining = 10
@@ -138,6 +150,9 @@ class GuessWord:
     def _calculate(self, charecter):
         """
         Calculate the score and remaining guess.
+
+        Args:
+            chrecter (str): The charecter that player guess.
         """
         wordLower = self.word.lower()
         charecterLower = charecter.lower()
